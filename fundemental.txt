@@ -1,0 +1,13 @@
+Locally Redundant Storage (LRS):
+Synchronously makes 3 copies of your data within a single physical data center in your primary region. 
+It is the most cost-effective option
+
+Zone-Redundant Storage (ZRS):
+Synchronously replicates your data across 3 distinct Availability Zones (separate data centers) within the same primary region. 
+It provides higher availability and protects against full data center outages.
+
+Geo-Redundant Storage (GRS):
+Combines LRS with asynchronous replication to a secondary region. It keeps 6 copies of your data in total—3 in your primary region and 3 in a paired secondary region, 
+hundreds of miles away. It protects against region-wide disasters
+
+1 hs 5 min
