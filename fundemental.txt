@@ -10,4 +10,3 @@ Geo-Redundant Storage (GRS):
 Combines LRS with asynchronous replication to a secondary region. It keeps 6 copies of your data in total—3 in your primary region and 3 in a paired secondary region, 
 hundreds of miles away. It protects against region-wide disasters
 
-1 hs 5 min
