@@ -1,0 +1,9 @@
+1. structured Data 
+-> Azure sql (Azure Service) is only for structured data
+-> First we need to create server and then we can create database
+
+2. Semi-Structured Data
+-> Azure Cosmos DB is one stop solution for Semi-Structured data
+
+3. UnStructured Data 
+-> Storage Account here we can manage both Semi-Structured data and UnStructured Data

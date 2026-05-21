@@ -1,3 +1,0 @@
-First we need to create server and then we can create database
-
-1hr 36min
