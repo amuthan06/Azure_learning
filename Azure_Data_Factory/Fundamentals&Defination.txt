@@ -1,0 +1,14 @@
+What is Azure Data Factory?
+
+-> Azure Data Factory (ADF) is a cloud-based data integration and orchestration service used to create, schedule, 
+   and manage ETL/ELT data pipelines.
+-> ADF helps to ingest, move, orchestrate, and transform data between different sources and destinations.
+-> there will be connectors by using this we can connect to any source and destination
+____________________________________________________
+Fundamental -
+
+Linked Service:
+-> It is just connection (Source to ADF is a Linked Service and ADF to destination is a Linked Service)
+
+Dataset:
+-> In source there will be many data (many tables) from there which table we need to get data is called Dataset
