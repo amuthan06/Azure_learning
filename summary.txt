@@ -1,0 +1,8 @@
+Things i have done in this 
+
+Azure Data Factory -
+1. copy data from one container to another
+2. copy data from git to container 
+3. using getmeta data copying only required files (only fact files to another container) using forEach and if
+4. Transforming using dataflow
+5. triggers 
