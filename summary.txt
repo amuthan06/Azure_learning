@@ -5,4 +5,16 @@ Azure Data Factory -
 2. copy data from git to container 
 3. using getmeta data copying only required files (only fact files to another container) using forEach and if
 4. Transforming using dataflow
-5. triggers 
+5. Schedul triggers 
+6. Learned about set variable 
+7. Storage Event trigger - This trigger will run automatically when some file loaded in source and stop after pipeline completed
+
+
+______________________________________________________________________________________
+Activities learned -
+Copy data
+Get Metadata
+forEach
+if
+dataflow
+set variable
