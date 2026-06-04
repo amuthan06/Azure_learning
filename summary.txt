@@ -18,3 +18,11 @@ forEach
 if
 dataflow
 set variable
+Execute pipeline
+
+______________________________________________________________________________________
+Phase - 2 (Project)
+
+-> Done onprem to azure data Storage(data lake):
+   Created Self Hosted Integrated Runtime -> created Linked service for onprem-files and dynamicaly using parameter copy files from on-prem to azure data Storage
+   Used parameter in forEach and inside forEach used copy activity
