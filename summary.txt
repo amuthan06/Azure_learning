@@ -26,3 +26,37 @@ Phase - 2 (Project)
 -> Done onprem to azure data Storage(data lake):
    Created Self Hosted Integrated Runtime -> created Linked service for onprem-files and dynamicaly using parameter copy files from on-prem to azure data Storage
    Used parameter in forEach and inside forEach used copy activity
+
+-> Implemented Incremental Loading (Azure SQL Database -> Azure Data Lake)
+
+   Created an Azure SQL Database and populated a FactBookings table.
+
+   Created a metadata file (lastload.json) in Azure Data Lake to store the last successful load timestamp (watermark).
+
+   Activities Used:
+
+   1. Lookup Activity (InitialLoad)
+      - Reads lastload.json from Data Lake.
+      - Retrieves previously loaded timestamp.
+
+   2. Lookup Activity (LatestLoad)
+      - Executes:
+        SELECT MAX(booking_date) AS latestload
+        FROM FactBookings
+      - Retrieves latest timestamp from source table.
+
+   3. Copy Data Activity (copySQLdata)
+      - Uses dynamic SQL query.
+      - Loads records where booking_date is greater than the previous watermark and less than or equal to the current maximum timestamp.
+
+   4. Copy Data Activity (watermark)
+      - Updates lastload.json with the latest source timestamp.
+      - Ensures next execution loads only new records.
+
+   Testing:
+   - Initial execution loaded all existing records (800 records).
+   - Inserted 10 new records with a later booking date.
+   - Subsequent execution loaded only the 10 newly added records.
+
+   Concept Used:
+   - Watermark-Based Incremental Loading Pattern.
