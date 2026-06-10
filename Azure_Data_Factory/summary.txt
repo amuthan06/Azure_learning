@@ -60,3 +60,13 @@ Phase - 2 (Project)
 
    Concept Used:
    - Watermark-Based Incremental Loading Pattern.
+
+-> Aggregate Pipeline -
+   using Execute pipeline activity i connect all 3 pipeline(onprem, api(git), AzureSQL(incremental load))
+   created logicapp in azure and created trigger to send mail in both sceanario (fail and success)
+
+-> Data Flow -
+   Done some data transform
+   Dataflow -> transform -> alter -> sink and used data flow activity and used that dataflow to the thing is actually happen
+
+-> learned to connect to git and azure devops our changes
