@@ -1,0 +1,9 @@
+What is databricks?
+Databricks is a cloud-based data lakehouse platform built on Apache Spark that enables organizations to ingest, process, transform, analyze, and 
+manage large-scale data workloads using distributed computing, Delta Lake, and collaborative workspaces for data engineering, analytics, AI, and machine learning.
+
+Does Databricks store data?
+Databricks is primarily a compute and analytics platform. The actual data is usually stored in cloud storage such as Azure Data Lake Storage, Amazon S3, or Google Cloud Storage. 
+Databricks uses Spark to process the data and Delta Lake to manage it, while the storage remains in the underlying cloud storage layer.
+
+Databricks architure?
