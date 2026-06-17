@@ -1,3 +1,8 @@
+Why Was Databricks Created?
+Before Databricks:
+A company had to Create VMs, Install Spark, Configure Spark, Configure Hadoop, Configure Security, Configure Storage, Monitor Clusters, Handle Failures
+This required lots of DevOps work. Now Databricks automates most of this.
+
 What is databricks?
 Databricks is a cloud-based data lakehouse platform built on Apache Spark that enables organizations to ingest, process, transform, analyze, and 
 manage large-scale data workloads using distributed computing, Delta Lake, and collaborative workspaces for data engineering, analytics, AI, and machine learning.
@@ -6,4 +11,14 @@ Does Databricks store data?
 Databricks is primarily a compute and analytics platform. The actual data is usually stored in cloud storage such as Azure Data Lake Storage, Amazon S3, or Google Cloud Storage. 
 Databricks uses Spark to process the data and Delta Lake to manage it, while the storage remains in the underlying cloud storage layer.
 
-Databricks architure?
+Control Plane
+Handles: Notebook UI, Saving notebook, User authentication, Cluster creation, Job scheduling
+It does not process your data.
+
+Data Plane
+Contains: Driver Node, Worker Nodes, Executors
+This is where Spark executes
+
+Simple Example:
+will write in notebook print("Hello") and save (This all will happen in Control Plane)
+but once you click Run, the code is sent to the Driver in the Data Plane for execution.

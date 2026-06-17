@@ -1,0 +1,22 @@
+Spark Cluster -
+A Cluster is a group of computers (machines) working together
+
+What is a Node?
+A single machine in a cluster is called a Node.
+
+Why we need cluster?
+The main reason is parallel processing.
+Example:
+Suppose you have a 1 TB file.
+If one machine processes it alone, it may take a long time.
+If you have a cluster with 10 nodes, Spark can split the data into multiple partitions.
+Each node processes a portion of the data simultaneously.
+Since multiple nodes work in parallel, processing becomes much faster.
+This is one of the key reasons Spark is widely used for Big Data.
+
+Spark architecture?
+Cluster Manager, Driver program / Driver node, worker node and executor
+When we run spark code and run it, 
+-> every cluster will have cluster Manager now this will start the driver node and that driver node will give all data like how many worker node need and how to execute like all details 
+-> this complete detail will given to worker node via cluster manager and now worker node got what to do and in worker node there will be executor where actual task done 
+-> now result will be given back to driver node via cluster manager 
