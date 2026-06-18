@@ -22,3 +22,9 @@ This is where Spark executes
 Simple Example:
 will write in notebook print("Hello") and save (This all will happen in Control Plane)
 but once you click Run, the code is sent to the Driver in the Data Plane for execution.
+
+Manage table and extermal table -
+In Manage table metadata and actual data both managed by metastore
+In External table only metadata is managed by metastore
+
+unity catalog

@@ -1,0 +1,5 @@
+Created resource group -> crearted storage account with data lake -> created databricks -> created access conector to databricks
+in databricks goes to manage account 
+in storage account -> access control -> in role selected - storage blob data contributor and then select our access connector we create 
+in https://accounts.azuredatabricks.net/ i have deleted the metastore in catalog and created my own and then i have created compute with single node
+created notebook and selected the cluster that we created
