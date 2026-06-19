@@ -1,4 +1,4 @@
-Things i have done in this 
+Things i have done in ADF
 
 Azure Data Factory -
 1. copy data from one container to another

@@ -1,3 +1,5 @@
+Things i have done in Databricks
+
 Created resource group -> crearted storage account with data lake -> created databricks -> created access conector to databricks
 in databricks goes to manage account 
 in storage account -> access control -> in role selected - storage blob data contributor and then select our access connector we create 
