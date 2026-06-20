@@ -1,0 +1,54 @@
+OneLake
+-> OneLake is like OneDrive for data.
+-> OneLake is the unified storage layer of Microsoft Fabric.
+-> All Fabric items (Lakehouse, Warehouse, Power BI, etc.) store data in OneLake.
+-> One OneLake exists per Fabric tenant.
+
+Lakehouse
+-> Combines Data Lake and Data Warehouse capabilities.
+-> Stores both Files and Tables.
+-> Supports Spark and SQL.
+-> Tables are stored in Delta Lake format.
+-> Best suited for Data Engineering workloads.
+
+Data Warehouse
+-> Stores structured data for analytics and reporting.
+-> SQL-first analytics engine.
+-> Uses T-SQL for querying.
+-> Best suited for Business Intelligence and reporting workloads.
+-> Data is stored in OneLake.
+
+Data Factory Pipeline
+-> Used to orchestrate and automate data workflows.
+-> Consists of Activities.
+-> Common Activities:
+   - Copy Activity
+   - Notebook Activity
+   - Dataflow Activity
+   - Stored Procedure Activity
+-> Supports Triggers:
+   - Schedule Trigger
+   - Event Trigger
+-> Supports Control Flow:
+   - If
+   - Switch
+   - ForEach
+   - Until
+-> Used for ETL/ELT orchestration.
+-> Supports monitoring and error handling.
+
+Dataflow Gen2
+-> Low-code/no-code data transformation tool.
+-> Uses Power Query.
+-> GUI-based transformation experience.
+-> Can load data into Lakehouse or Warehouse.
+-> Common transformations:
+   - Filter Rows
+   - Rename Columns
+   - Remove Columns
+   - Change Data Types
+   - Merge
+   - Append
+-> Suitable for simple ETL and data preparation.
+-> Can be executed from a Pipeline.
+-> Alternative to Spark for simpler workloads.
