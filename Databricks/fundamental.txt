@@ -27,4 +27,26 @@ Manage table and extermal table -
 In Manage table metadata and actual data both managed by metastore
 In External table only metadata is managed by metastore
 
-unity catalog
+Unity Catalog -
+Scenario: In a modern data platform, data is stored across multiple sources such as:
+Azure SQL Database
+Cloud Storage
+Azure Data Lake Storage Gen2 (ADLS Gen2)
+Databricks Workspace
+
+Problems Without Unity Catalog:
+Difficult to manage data access permissions across different storage systems.
+No centralized governance for data assets.
+Hard to track who accessed, modified, or used the data.
+Managing security and auditing separately for each storage system becomes complex.
+
+Solution – Unity Catalog:
+Unity Catalog provides a centralized governance layer for all data assets. It helps:
+Manage permissions and access control from a single place.
+Track data usage through auditing and monitoring.
+Maintain data security and compliance.
+Organize data using Catalogs, Schemas, and Tables.
+Govern data across Databricks workspaces and multiple storage locations.
+
+In Short:
+Unity Catalog is Databricks' centralized data governance solution that provides unified access control, auditing, lineage tracking, and security for all data assets across the data platform.

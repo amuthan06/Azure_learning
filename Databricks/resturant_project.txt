@@ -24,7 +24,7 @@ PHASE 1 - Azure Environment Setup
 5. Executed Python Streaming Producer
    - Generates restaurant order events
    - Pushes live data into Event Hub
-   - Simulates real-time order transactions
+   - Simulates real-time restaurant orders
 
 ----------------------------------------------------
 
@@ -35,24 +35,18 @@ PHASE 2 - Azure SQL Database Setup
 
 2. Created Azure SQL Database
 
-3. Connected using SSMS
+3. Connected using SQL Server Management Studio (SSMS)
 
 4. Created Source Tables
 
-   a. historical_orders
-      - Stores restaurant order transactions
+   - historical_orders
+   - customers
+   - restaurants
+   - menu_items
+   - reviews
 
-   b. reviews
-      - Stores customer reviews and ratings
-
-   c. customers
-      - Stores customer information
-
-   d. menu_items
-      - Stores restaurant menu catalog
-
-   e. restaurants
-      - Stores restaurant master data
+Purpose:
+   - Store restaurant operational and analytical data
 
 ----------------------------------------------------
 
@@ -61,14 +55,7 @@ PHASE 3 - Change Tracking Setup
 
 1. Enabled Change Tracking at Database Level
 
-   ALTER DATABASE <DB_NAME>
-   SET CHANGE_TRACKING = ON
-   (
-       CHANGE_RETENTION = 14 DAYS,
-       AUTO_CLEANUP = ON
-   );
-
-2. Enabled Change Tracking on Tables
+2. Enabled Change Tracking for Tables
 
    - customers
    - historical_orders
@@ -78,7 +65,7 @@ PHASE 3 - Change Tracking Setup
 
 Purpose:
    - Capture incremental changes
-   - Support efficient ingestion into Databricks
+   - Support efficient data ingestion
 
 ----------------------------------------------------
 
@@ -86,8 +73,6 @@ PHASE 4 - Change Data Capture (CDC)
 -----------------------------------
 
 1. Enabled CDC at Database Level
-
-   EXEC sys.sp_cdc_enable_db;
 
 2. Enabled CDC for Tables
 
@@ -98,25 +83,20 @@ PHASE 4 - Change Data Capture (CDC)
    - reviews
 
 Purpose:
-   - Track Inserts
-   - Track Updates
-   - Track Deletes
+   - Capture Inserts
+   - Capture Updates
+   - Capture Deletes
 
 ----------------------------------------------------
 
-PHASE 5 - Databricks Lakeflow Utility Scripts
----------------------------------------------
+PHASE 5 - Databricks Lakeflow Preparation
+-----------------------------------------
 
-Executed utility scripts provided by Databricks.
+Executed Databricks utility scripts:
 
 1. lakeflowFixPermissions
-   - Granted required permissions
-
 2. lakeflowSetupChangeTracking
-   - Configured Change Tracking
-
 3. lakeflowSetupChangeDataCapture
-   - Configured CDC
 
 Purpose:
    - Prepare Azure SQL Database for Lakeflow Connect
@@ -126,20 +106,54 @@ Purpose:
 PHASE 6 - CDC Validation
 ------------------------
 
-Performed test operations to verify CT/CDC.
+1. Performed Update Operation
 
-Test Update:
    UPDATE customers
    SET city='Abu Dhabi'
    WHERE customer_id='CUST-10000';
 
-Test Insert:
-   Inserted new menu item:
+2. Performed Insert Operation
+
+   Added new menu item:
    ITEM-999 -> Samosa (2 pcs)
 
 Result:
-   - Changes successfully captured
-   - Ready for Databricks ingestion
+   - CDC successfully captured changes
+   - Source system ready for Databricks ingestion
+
+----------------------------------------------------
+
+PHASE 7 - Azure Databricks Setup
+--------------------------------
+
+1. Created Azure Databricks Workspace
+
+2. Launched Databricks Workspace
+
+3. Configured Unity Catalog Structure
+
+4. Created Schemas
+
+   - 00_landing
+       -> Raw data ingestion layer
+       -> Temporary landing zone for incoming data
+
+   - 01_bronze
+       -> Stores raw ingested data
+       -> Minimal transformations applied
+
+   - 02_silver
+       -> Stores cleaned and validated data
+       -> Data quality checks applied
+
+   - 03_gold
+       -> Stores business-ready datasets
+       -> Aggregated and optimized for reporting
+
+Purpose:
+   - Implement Medallion Architecture
+   - Organize data processing layers
+   - Enable scalable analytics and governance
 
 ----------------------------------------------------
 
@@ -155,6 +169,18 @@ Azure Event Hub (orders)
       |
       v
 Databricks Streaming Ingestion
+      |
+      v
+00_landing
+      |
+      v
+01_bronze
+      |
+      v
+02_silver
+      |
+      v
+03_gold
 
 Incremental Pipeline
 
@@ -167,23 +193,48 @@ Change Tracking + CDC
 Databricks Lakeflow Connect
       |
       v
-Databricks
+00_landing
+      |
+      v
+01_bronze
+      |
+      v
+02_silver
+      |
+      v
+03_gold
 
 ----------------------------------------------------
 
 STATUS
 ------
+
 ✔ Resource Group Created
+✔ Event Hub Namespace Created
 ✔ Event Hub Created
 ✔ SAS Policies Configured
-✔ Streaming Producer Running
+✔ Python Streaming Producer Running
+✔ Azure SQL Server Created
 ✔ Azure SQL Database Created
 ✔ Source Tables Created
 ✔ Change Tracking Enabled
 ✔ CDC Enabled
 ✔ Lakeflow Utility Scripts Executed
 ✔ CDC Validation Completed
+✔ Azure Databricks Workspace Created
+✔ Unity Catalog Configured
+✔ Landing Schema Created
+✔ Bronze Schema Created
+✔ Silver Schema Created
+✔ Gold Schema Created
 
-Next Step:
--> Connect Azure SQL Database and Event Hub to Databricks
--> Build Bronze Layer Ingestion
+NEXT STEP
+---------
+
+1. Create Event Hub Connection in Databricks
+2. Create Lakeflow Connect Pipeline for Azure SQL
+3. Ingest data into Landing Layer
+4. Build Bronze Layer tables
+5. Build Silver Layer transformations
+6. Create Gold Layer business aggregates
+7. Build Dashboards and Analytics
