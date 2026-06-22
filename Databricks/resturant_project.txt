@@ -1,0 +1,189 @@
+====================================================
+PROJECT: Restaurant Analytics Platform (Databricks)
+====================================================
+
+PHASE 1 - Azure Environment Setup
+---------------------------------
+1. Created Azure Resource Group
+   - Name: rs_databrickproject
+
+2. Created Azure Event Hubs Namespace
+   - Name: eh-dbproject
+
+3. Created Event Hub
+   - Name: orders
+
+4. Configured Shared Access Policies
+   - producer-send-policy (Send)
+       -> Used by Python producer application
+   - databricks-read-policy (Listen)
+       -> Used by Databricks to consume events
+   - RootManageSharedAccessKey
+       -> Manage, Send, Listen
+
+5. Executed Python Streaming Producer
+   - Generates restaurant order events
+   - Pushes live data into Event Hub
+   - Simulates real-time order transactions
+
+----------------------------------------------------
+
+PHASE 2 - Azure SQL Database Setup
+----------------------------------
+
+1. Created Azure SQL Server
+
+2. Created Azure SQL Database
+
+3. Connected using SSMS
+
+4. Created Source Tables
+
+   a. historical_orders
+      - Stores restaurant order transactions
+
+   b. reviews
+      - Stores customer reviews and ratings
+
+   c. customers
+      - Stores customer information
+
+   d. menu_items
+      - Stores restaurant menu catalog
+
+   e. restaurants
+      - Stores restaurant master data
+
+----------------------------------------------------
+
+PHASE 3 - Change Tracking Setup
+-------------------------------
+
+1. Enabled Change Tracking at Database Level
+
+   ALTER DATABASE <DB_NAME>
+   SET CHANGE_TRACKING = ON
+   (
+       CHANGE_RETENTION = 14 DAYS,
+       AUTO_CLEANUP = ON
+   );
+
+2. Enabled Change Tracking on Tables
+
+   - customers
+   - historical_orders
+   - menu_items
+   - restaurants
+   - reviews
+
+Purpose:
+   - Capture incremental changes
+   - Support efficient ingestion into Databricks
+
+----------------------------------------------------
+
+PHASE 4 - Change Data Capture (CDC)
+-----------------------------------
+
+1. Enabled CDC at Database Level
+
+   EXEC sys.sp_cdc_enable_db;
+
+2. Enabled CDC for Tables
+
+   - customers
+   - historical_orders
+   - menu_items
+   - restaurants
+   - reviews
+
+Purpose:
+   - Track Inserts
+   - Track Updates
+   - Track Deletes
+
+----------------------------------------------------
+
+PHASE 5 - Databricks Lakeflow Utility Scripts
+---------------------------------------------
+
+Executed utility scripts provided by Databricks.
+
+1. lakeflowFixPermissions
+   - Granted required permissions
+
+2. lakeflowSetupChangeTracking
+   - Configured Change Tracking
+
+3. lakeflowSetupChangeDataCapture
+   - Configured CDC
+
+Purpose:
+   - Prepare Azure SQL Database for Lakeflow Connect
+
+----------------------------------------------------
+
+PHASE 6 - CDC Validation
+------------------------
+
+Performed test operations to verify CT/CDC.
+
+Test Update:
+   UPDATE customers
+   SET city='Abu Dhabi'
+   WHERE customer_id='CUST-10000';
+
+Test Insert:
+   Inserted new menu item:
+   ITEM-999 -> Samosa (2 pcs)
+
+Result:
+   - Changes successfully captured
+   - Ready for Databricks ingestion
+
+----------------------------------------------------
+
+CURRENT ARCHITECTURE
+--------------------
+
+Real-Time Pipeline
+
+Python Producer
+      |
+      v
+Azure Event Hub (orders)
+      |
+      v
+Databricks Streaming Ingestion
+
+Incremental Pipeline
+
+Azure SQL Database
+      |
+      v
+Change Tracking + CDC
+      |
+      v
+Databricks Lakeflow Connect
+      |
+      v
+Databricks
+
+----------------------------------------------------
+
+STATUS
+------
+✔ Resource Group Created
+✔ Event Hub Created
+✔ SAS Policies Configured
+✔ Streaming Producer Running
+✔ Azure SQL Database Created
+✔ Source Tables Created
+✔ Change Tracking Enabled
+✔ CDC Enabled
+✔ Lakeflow Utility Scripts Executed
+✔ CDC Validation Completed
+
+Next Step:
+-> Connect Azure SQL Database and Event Hub to Databricks
+-> Build Bronze Layer Ingestion
