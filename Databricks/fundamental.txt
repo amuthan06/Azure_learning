@@ -50,3 +50,5 @@ Govern data across Databricks workspaces and multiple storage locations.
 
 In Short:
 Unity Catalog is Databricks' centralized data governance solution that provides unified access control, auditing, lineage tracking, and security for all data assets across the data platform.
+
+Lakeflow, CDC, DBFS(DataBricks File System), workspace, computr, notebook, data utlies
