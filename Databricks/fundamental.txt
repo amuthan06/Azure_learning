@@ -11,6 +11,34 @@ Does Databricks store data?
 Databricks is primarily a compute and analytics platform. The actual data is usually stored in cloud storage such as Azure Data Lake Storage, Amazon S3, or Google Cloud Storage. 
 Databricks uses Spark to process the data and Delta Lake to manage it, while the storage remains in the underlying cloud storage layer.
 
+What is a Databricks Workspace?
+A Databricks Workspace is your team's working environment inside Databricks.
+Think of it somewhat like a project environment where you organize and access the things needed to develop and operate data workloads.
+
+What is a Notebook?
+A Databricks Notebook is an interactive development environment where you write and execute code and SQL against Databricks compute.
+can use notebooks for: PySpark, Python, SQL, Scala, R, exploration, debugging, data transformation, testing, analysis
+
+What is Compute?
+Compute is the processing infrastructure that executes your workload
+
+What is a Cluster?
+A cluster is a set of compute resources configured to execute workloads, typically using Spark.
+
+What is a Databricks Job?
+A Job is an automated definition of work that Databricks should execute
+Example : 
+Job: Daily Sales Pipeline
+Schedule: Every day at 1 AM
+Tasks:
+1. Ingest orders
+2. Transform orders
+3. Build aggregates
+4. Validate data
+
+What is a Task?
+A task is an individual unit of work inside a job.
+
 Control Plane
 Handles: Notebook UI, Saving notebook, User authentication, Cluster creation, Job scheduling
 It does not process your data.
