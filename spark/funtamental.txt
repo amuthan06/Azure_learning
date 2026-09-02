@@ -1,3 +1,59 @@
+What is PySpark?
+PySpark is Python's interface to Apache Spark, A Distributed computing engine designed to process very large amounts of data across multiple machines.
+
+fundamental idea behind Spark?
+Suppose we have 1TB of data, Instead of processing in One computer Spark can distribute it to many/some computer.
+Multiple machines process different portions of the data in parallel.
+
+What exactly is Apache Spark?
+Apache Spark is a distributed data processing engine.
+
+Spark important components
+1. Driver
+2. Executors
+3. Workers
+4. Cluster Manager
+
+Driver?
+The Driver is basically the brain/coordinator of your Spark application
+Suppose you write:
+df = spark.read.csv("customers.csv")
+df.filter(df.amount > 1000)
+The Driver doesn't necessarily process every row itself. It creates the execution plan and coordinates the work.
+
+Executor?
+An Executor is where actual data processing happens. Executors run on worker machines.
+Executors: execute tasks, process partitions, store cached data, return results to the Driver
+
+Worker node?
+A worker node is a machine in the cluster that provides resources for Spark. Workers host executors
+Important distinction:
+Worker = machine
+Executor = process running on that machine
+
+Cluster Manager?
+Spark needs something to allocate machines/resources. That's the job of the Cluster Manager.
+Common cluster managers include: Spark Standalone, YARN and Kubernetes
+
+Putting everything together
+                spark-code
+                     │
+                     ▼
+                  DRIVER
+                     │
+                     ▼
+             CLUSTER MANAGER
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+       Worker 1   Worker 2   Worker 3
+          │          │          │
+       Executor   Executor   Executor
+          │          │          │
+       Tasks      Tasks      Tasks
+          │          │          │
+       Data       Data       Data
+
 Spark Cluster -
 A Cluster is a group of computers (machines) working together
 
