@@ -135,3 +135,33 @@ It doesn't yet care exactly which machine does what. (It is like plan in our hea
 Physical plan?
 How should Spark actually execute it?
 df.explain() - using this we can see Physical Plan
+
+DAG?
+Directed Acyclic Graph (DAG) is precisely a blueprint for how your data will be processed
+
+Jobs?
+When you execute an action Spark creates a job
+one action triggers one Spark job
+
+Stages?
+A job is divided into stages
+df.groupBy("city").sum("amount")
+Job
+ │
+ ├── Stage 1
+ │
+ └── Stage 2
+
+Tasks?
+A stage contains tasks
+
+important hierarchy?
+Application (code)
+    ↓
+   Jobs (One Job for One Action)
+    ↓
+  Stages
+    ↓
+  Tasks (One Task is for one partition)
+
+28
