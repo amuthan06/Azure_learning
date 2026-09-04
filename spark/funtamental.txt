@@ -163,5 +163,7 @@ Application (code)
   Stages
     ↓
   Tasks (One Task is for one partition)
+A Spark application contains jobs. An action triggers a job. A job is divided into stages at shuffle boundaries. 
+Each stage processes a set of partitions, and Spark creates one task for each partition in that stage. Tasks are executed concurrently according to the available executor cores.
 
 28
