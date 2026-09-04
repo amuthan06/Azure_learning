@@ -76,3 +76,62 @@ When we run spark code and run it,
 -> every cluster will have cluster Manager now this will start the driver node and that driver node will give all data like how many worker node need and how to execute like all details 
 -> this complete detail will given to worker node via cluster manager and now worker node got what to do and in worker node there will be executor where actual task done 
 -> now result will be given back to driver node via cluster manager 
+
+DataFrame?
+DataFrame is a two-dimensional, distributed data structure that organizes data into rows and columns,
+much like a table in a relational database or an Excel spreadsheet.
+
+Partitions?
+Suppose you have 100 GB data, Spark doesn't necessarily treat it as one giant object.
+It divides it into partitions.
+
+Transformations?
+filter()
+select()
+withColumn()
+groupBy()
+join()
+orderBy()
+
+Lazy evaluation?
+df2 = df.filter(df.amount > 1000) When i run this code It doesn't necessarily execute it yet.
+Read data
+   ↓
+Filter amount > 1000
+only these will be done at back. but nothing executed
+df2.show() now only everything will be executed
+
+Actions?
+Actually trigger execution are called actions
+show()
+count()
+collect()
+take()
+first()
+write()
+
+Catalyst Optimizer?
+Spark SQL has a powerful query optimizer called the Catalyst Optimizer.
+df.filter(df.amount > 1000) \
+  .select("name", "amount") \
+  .filter(df.city == "Chennai")
+Spark doesn't simply execute your Python instructions one by one.
+Conceptually -
+  Your PySpark code
+       ↓
+  Logical Plan
+       ↓
+  Catalyst Optimizer
+       ↓
+  Optimized Logical Plan
+       ↓
+  Physical Plan
+       ↓
+  Execution
+
+Logical plan?
+It doesn't yet care exactly which machine does what. (It is like plan in our head)
+
+Physical plan?
+How should Spark actually execute it?
+df.explain() - using this we can see Physical Plan
