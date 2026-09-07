@@ -166,4 +166,66 @@ Application (code)
 A Spark application contains jobs. An action triggers a job. A job is divided into stages at shuffle boundaries. 
 Each stage processes a set of partitions, and Spark creates one task for each partition in that stage. Tasks are executed concurrently according to the available executor cores.
 
-28
+Shuffle?
+Scenario :- Employee data
+employee_id | department | salary
+1           | IT         | 50000
+2           | HR         | 40000
+3           | IT         | 70000
+4           | Sales      | 60000
+code - df.groupBy("department").sum("salary")
+Partition 1: (1 IT, 2 HR)
+Partition 2: (3 IT, 4 Sales)
+So data moves between executors. This is shuffle
+
+Visualizing shuffle -
+Before Shuffle:
+Executor 1
+ ├── IT
+ └── HR
+Executor 2
+ ├── IT
+ └── Sales
+After Shuffle:
+Executor 1
+ ├── IT
+ ├── IT
+ └── ...
+Executor 2
+ ├── HR
+ ├── Sales
+ └── ...
+ Data has crossed the network. That's expensive.
+Because shuffle involves: network I/O, serialization, disk I/O, memory, CPU
+Therefore: A large shuffle is often one of the biggest performance bottlenecks in Spark.
+
+Which operations cause shuffle?
+groupBy(), join(), distinct(), orderBy(), repartition()
+
+Narrow vs Wide transformations?
+Narrow transformation - Data doesn't need to move between partitions
+Examples: filter(), select(), withColumn()
+Wide transformation - Data needs to move between partitions
+Example: groupBy(), join(), orderBy(), distinct()
+
+RDD?
+RDD — Resilient Distributed Dataset
+A distributed collection of objects partitioned across machines that can be processed in parallel.
+
+DataFrame?
+DataFrame is a distributed collection of data organized into named columns. (You can think of it as a table)
+PySpark DataFrame is distributed across partitions, potentially across many machines.
+
+DataFrame vs RDD?
+RDD is the lower-level abstraction. You generally work with objects/records directly
+In DataFrame, will work with Rows -> Columns -> Schema (all details like datatype, metadata, ...)
+
+Why DataFrames are usually preferred over RDD?
+In RDD, spark doesn't know much about the structure of your data
+In DataFrame, Spark understands schema, datatype and metadata. This lets Spark optimize the query.
+
+PySpark vs Pandas?
+Pandas mailnly Designed primarily for Single machine (For smaller datasets, local processing)
+PySpark Designed for Distributed processing (For huge datasets, ETL, distributed transformations, data lakes)
+
+38
