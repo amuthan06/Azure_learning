@@ -1,0 +1,19 @@
+PySpark / Spark — Good hands-on
+
+Comfortable writing PySpark transformations.
+Understand DataFrames, transformations/actions, joins, aggregations, partitions, stages, and tasks.
+Can reason about Spark execution and performance.
+Can work with Spark jobs in a real environment.
+
+Airflow — Basic hands-on
+
+Understand DAGs, tasks, dependencies, scheduling and task execution.
+Can navigate Airflow UI and inspect DAG runs, task states, logs and Kubernetes pod information.
+Have exposure to Airflow running with Kubernetes.
+But don't present yourself as an Airflow expert yet.
+
+________________________________________________
+
+Primary strength: PySpark / Apache Spark
+Supporting knowledge: Apache Airflow + Kubernetes-based execution
+Exposure: Trino, Superset, Ranger, YuniKorn, Kafka, observability stack, Orbit
