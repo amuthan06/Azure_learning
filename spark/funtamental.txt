@@ -228,4 +228,17 @@ PySpark vs Pandas?
 Pandas mailnly Designed primarily for Single machine (For smaller datasets, local processing)
 PySpark Designed for Distributed processing (For huge datasets, ETL, distributed transformations, data lakes)
 
-38
+Predicate pushdown?
+Predicate pushdown means if we use filter instead of reading all data and filter, spark Ask storage for relevant data
+This can dramatically reduce I/O.
+
+Column pruning?
+Column pruning means if we have 10columns but for transformation / action we need only 4 columns means Spark can often read only the required columns
+
+Parquet?
+Parquet is a columnar storage format
+
+Fault tolerance?
+Spark tracks how data was derived through its execution lineage. If an intermediate partition disappears, Spark can often recompute it from the source/lineage rather than requiring the entire application to restart.
+
+50
