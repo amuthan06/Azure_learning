@@ -241,4 +241,16 @@ Parquet is a columnar storage format
 Fault tolerance?
 Spark tracks how data was derived through its execution lineage. If an intermediate partition disappears, Spark can often recompute it from the source/lineage rather than requiring the entire application to restart.
 
-50
+Repartition vs Coalesce?
+df.repartition(20) -> This generally causes a shuffle and redistributes data across 20 partitions.
+df.coalesce(20) -> commonly used to reduce partitions with less/no full shuffle in appropriate cases. Useful before writing output when you have too many small files.
+
+Data skew?
+Data:
+India       900 million rows
+USA         50 million
+UK          20 million
+Germany     10 million
+groupBy("country") -> One partition may get a disproportionately large amount of data. That's Data skew
+
+67
