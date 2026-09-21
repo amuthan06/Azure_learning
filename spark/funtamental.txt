@@ -20,6 +20,9 @@ Suppose you write:
 df = spark.read.csv("customers.csv")
 df.filter(df.amount > 1000)
 The Driver doesn't necessarily process every row itself. It creates the execution plan and coordinates the work.
+-> Parse your spark code
+-> Build the logical plan
+-> splits work into tasks
 
 Executor?
 An Executor is where actual data processing happens. Executors run on worker machines.
@@ -54,6 +57,9 @@ Putting everything together
           │          │          │
        Data       Data       Data
 
+Execution Flow?
+Driver -> cluster manager -> start executor(Driver) -> Driver -> assign task to executor -> send result to driver
+
 Spark Cluster -
 A Cluster is a group of computers (machines) working together
 
@@ -73,7 +79,7 @@ This is one of the key reasons Spark is widely used for Big Data.
 Spark architecture?
 Cluster Manager, Driver program / Driver node, worker node and executor
 When we run spark code and run it, 
--> every cluster will have cluster Manager now this will start the driver node and that driver node will give all data like how many worker node need and how to execute like all details 
+-> every cluster will have cluster Manager now this will start the driver node and that driver node will give all data like how many worker node need and how to like all details 
 -> this complete detail will given to worker node via cluster manager and now worker node got what to do and in worker node there will be executor where actual task done 
 -> now result will be given back to driver node via cluster manager 
 
@@ -138,6 +144,10 @@ df.explain() - using this we can see Physical Plan
 
 DAG?
 Directed Acyclic Graph (DAG) is precisely a blueprint for how your data will be processed
+
+Job -> Stage -> Task
+1 Job can have multiple Stages
+1 Stage can have multiple tasks
 
 Jobs?
 When you execute an action Spark creates a job
@@ -253,4 +263,5 @@ UK          20 million
 Germany     10 million
 groupBy("country") -> One partition may get a disproportionately large amount of data. That's Data skew
 
-67
+Low Level Programing model VS High Level Programing Model
+Hadoop VS Spark
