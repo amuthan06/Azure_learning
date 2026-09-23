@@ -177,6 +177,7 @@ A Spark application contains jobs. An action triggers a job. A job is divided in
 Each stage processes a set of partitions, and Spark creates one task for each partition in that stage. Tasks are executed concurrently according to the available executor cores.
 
 Shuffle?
+Movement of data inbetween partitions are shuffle
 Scenario :- Employee data
 employee_id | department | salary
 1           | IT         | 50000
@@ -262,6 +263,30 @@ USA         50 million
 UK          20 million
 Germany     10 million
 groupBy("country") -> One partition may get a disproportionately large amount of data. That's Data skew
+
+read data -
+Syntax - spark.read.format("csv").option("header", "true").option("inferschema","true").schema("predefined_schema_name").load("location")
+Note - if we use option("inferschema") then no need schema()
+Moder_Syntax = spark.read.option("header", "true").schema().csv("location")
+Note - by using csv / json / parquet we can avoid format() and load()
+
+schema defination -
+1. option("inferSchema", "true") - this will check a part of data and create datatype based on it and use nullable = true (if datatype missmatch then it will make that data as null)
+2. Define schema before read using import StructType and StructField here we can define datatype and nullable ourself
+   syntax - schema_df = structType([
+                                    structField("column_name", dataType, nullable)
+                                    structField("index_no", IntegerType(), False) # index_no cannot be null
+                                    structField("name", StringType(), True) # name can be null
+                                    ])
+
+Performance -
+1. Can improve performance by ordering transformation correct 
+   Example - select().filter().withColumn() here first select unwanted columns removed then filter will remove unwanted rows so now calculation will happen only for required data
+             withColumn().select().filter() if we used like this calculation will done first for all rows even for unwanted data this is expensive
+2. Maximum avoid shuffle
+
+Join -
+broadcast join vs shuffle join
 
 Low Level Programing model VS High Level Programing Model
 Hadoop VS Spark
