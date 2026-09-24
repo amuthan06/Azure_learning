@@ -254,7 +254,37 @@ Spark tracks how data was derived through its execution lineage. If an intermedi
 
 Repartition vs Coalesce?
 df.repartition(20) -> This generally causes a shuffle and redistributes data across 20 partitions.
+repartition() changes the number of partitions using a full shuffle, so it can increase or decrease partitions and generally provides better data distribution.
+repartition helps to avoid data skew (if any one partition is very big we can make all equal by repartition())
 df.coalesce(20) -> commonly used to reduce partitions with less/no full shuffle in appropriate cases. Useful before writing output when you have too many small files.
+coalesce() is mainly used to reduce the number of partitions while avoiding a full shuffle, making it cheaper but potentially less balanced.
+coalesce will create data skew
+
+REPARTITION BY KEY -
+Syntax: df.repartition(3, "customer_id")
+Explanation: Creates 3 partitions, Redistributes data based on customer_id, Same customer_id values go to the same partition and Causes a SHUFFLE.
+Example:
+df.repartition(3, "customer_id")
+Before:
+P1 → 101, 102
+P2 → 101, 103
+P3 → 102, 101
+After:
+P1 → 102, 102
+P2 → 101, 101, 101
+P3 → 103
+(Exact partition assignment is decided by Spark's hash partitioning.)
+Why use it?
+Useful when subsequent operations use the same key:
+* groupBy("customer_id")
+* join on customer_id
+* aggregations by customer_id
+It CAN improve performance by organizing data by the key.
+IMPORTANT:
+Repartition itself is expensive because it causes a shuffle.
+So:
+Useful repartition → can improve performance
+Unnecessary repartition → adds extra shuffle → can reduce performance
 
 Data skew?
 Data:
@@ -301,6 +331,51 @@ in mode have few 4 options like
    error (default) -  while write if the file already exist this will show error
    ignore - while write if the file already exist this will not show any error it will just skip
 and what file you need to write we can use .json() / .parquet()
+
+MANAGED TABLE
+
+Spark/Databricks maintains the table metadata AND manages the underlying data location/lifecycle.
+The actual data is stored in the managed storage location.
+If we create a table without specifying LOCATION, it is generally a managed table.
+Example:
+CREATE TABLE customers (
+customer_id INT,
+name STRING,
+city STRING
+);
+Here, we did not specify LOCATION, so the platform chooses/manages the storage location.
+Access: SELECT * FROM customers;
+Drop: DROP TABLE customers;
+For a managed table, the underlying managed data is also removed according to the catalog/platform's lifecycle rules.
+
+EXTERNAL TABLE
+Spark/Databricks maintains the table metadata.
+The actual data is stored in a user-specified/external storage location.
+We explicitly provide the LOCATION.
+Example:
+CREATE TABLE customers
+USING DELTA
+LOCATION '/mnt/data/customers/';
+Here:
+Table metadata → Catalog/Metastore
+Actual data    → /mnt/data/customers/
+The table points to the existing/external data location.
+Drop: DROP TABLE customers;
+The table metadata/registration is removed, but the underlying external data files normally remain.
+
+MAIN DIFFERENCE
+Managed: Platform manages metadata + data lifecycle
+External: Platform manages metadata
+User/external storage manages actual data
+EASY MEMORY
+Managed  → "You manage the table through the platform."
+External → "The data exists outside the table's managed storage."
+
+What determines the number of shuffle partitions?
+spark.conf.get("spark.sql.shuffle.partitions")
+for example it return - 200
+So if you do: df.groupBy("customer_id").count()
+Spark may create 200 shuffle partitions
 
 Low Level Programing model VS High Level Programing Model
 Hadoop VS Spark
