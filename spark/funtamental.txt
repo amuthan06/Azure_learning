@@ -258,10 +258,10 @@ df.coalesce(20) -> commonly used to reduce partitions with less/no full shuffle 
 
 Data skew?
 Data:
-India       900 million rows
-USA         50 million
-UK          20 million
-Germany     10 million
+Partition 1 - 900 million rows
+Partition 2 - 50 million
+Partition 3 - 20 million
+Partition 4 - 10 million
 groupBy("country") -> One partition may get a disproportionately large amount of data. That's Data skew
 
 read data -
@@ -287,6 +287,20 @@ Performance -
 
 Join -
 broadcast join vs shuffle join
+Broadcast Join - Used when one DataFrame is small enough to safely fit in executor memory.The small table is temporarily made available to executors for the join.
+                 It is NOT permanently stored on every executor.
+Syntax - df_broad_join = df_order.join(broadcast(df_customer), "customer_id")
+Normal Join / shuffle join - Used when both tables are large or broadcasting is not practical. Shuffle happen here
+Syntax - df_join = df_orders.join(df_customers, "customer_id")
+
+write -
+df.write.mode("overwrite" / "append").csv("location")
+in mode have few 4 options like 
+   overwrite - it will completly replace the new data with old data 
+   append - it just add new data to existing data, it allows duplicates 
+   error (default) -  while write if the file already exist this will show error
+   ignore - while write if the file already exist this will not show any error it will just skip
+and what file you need to write we can use .json() / .parquet()
 
 Low Level Programing model VS High Level Programing Model
 Hadoop VS Spark
