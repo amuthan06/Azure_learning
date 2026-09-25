@@ -1,0 +1,82 @@
+# PYSPARK / DATABRICKS REAL-TIME FLOW
+
+1. DATA STORAGE
+Actual data is usually stored in cloud storage:
+ADLS / S3 / GCS
+↓
+Delta / Parquet / CSV files
+
+2. CLUSTER SETUP
+Before running the PySpark workload, we configure the Spark cluster:
+
+Cluster
+|
++-- Driver
+|
++-- Worker Nodes
+  |
+  +-- Executors
+  |
+  +-- CPU Cores
+  +-- Memory
+We decide/configure things such as:
+* Number of worker nodes
+* VM/instance type
+* CPU cores
+* Memory
+
+3. PYSPARK PROCESSING
+PySpark code runs on the Spark cluster.
+Cloud Storage
+↓
+Read data
+↓
+Data divided into partitions
+↓
+Tasks
+↓
+Executors process partitions
+↓
+Transformations / Joins / Aggregations
+↓
+Write result
+
+4. IMPORTANT
+Executor memory does NOT need to be equal to the total dataset size.
+Example:
+Data = 50 GB
+Executor memory = 16 GB
+This is possible because Spark processes the data in partitions rather than loading the entire 50 GB into memory at once.
+Example:
+50 GB
+↓
+Partitions
+↓
+Process some partitions
+↓
+Process next partitions
+↓
+...
+↓
+Complete processing
+↓
+Write result to cloud storage
+
+5. SIMPLE FLOW
+Cloud Storage
+↓
+Spark Cluster
+↓
+Read → Partition → Process
+↓
+Transform / Join / Aggregate
+↓
+Write
+↓
+Cloud Storage
+
+## MEMORY
+
+Data size ≠ Cluster RAM required.
+
+Spark processes large datasets using distributed partitions across multiple executors.
