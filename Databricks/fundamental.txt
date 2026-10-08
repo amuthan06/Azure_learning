@@ -41,9 +41,9 @@ A task is an individual unit of work inside a job.
 
 Control Plane
 Handles: Notebook UI, Saving notebook, User authentication, Cluster creation, Job scheduling
-It does not process your data.
+It does not process your data. Control plane is operated by DataBricks
 
-Data Plane
+Compute Plane / Data Plane
 Contains: Driver Node, Worker Nodes, Executors
 This is where Spark executes
 
@@ -77,6 +77,53 @@ Organize data using Catalogs, Schemas, and Tables.
 Govern data across Databricks workspaces and multiple storage locations.
 
 In Short:
-Unity Catalog is Databricks' centralized data governance solution that provides unified access control, auditing, lineage tracking, and security for all data assets across the data platform.
+Unity Catalog is Databricks centralized data governance solution that provides unified access control, auditing, lineage tracking, and security for all data assets across the data platform.
 
+Unity Catalog answers questions like:
+- What data do we have?
+- Where is it stored?
+- Who can access it?
+- What can they do with it?
+- Where did this data come from?
+- What downstream tables/reports depend on it?
+
+The hierarchy - Catalog -> Schema -> Table
+example: prod -> sales -> orders , fully qualified table name is prod.sales.orders
+
+________________________________________________________________________
 Lakeflow, CDC, DBFS(DataBricks File System), workspace, computr, notebook, data utlies
+
+________________________________________________________________________
+                    SOURCE SYSTEMS
+                         │
+       ┌─────────────────┼─────────────────┐
+       ↓                 ↓                 ↓
+   Azure SQL          REST API          Files
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         ↓
+                  Azure Data Factory
+                         │
+                         ↓
+                    ADLS Gen2
+                         │
+                         ↓
+                    BRONZE DELTA
+                         │
+                         ↓
+                 DATABRICKS SPARK
+                         │
+                    transformations
+                         │
+                         ↓
+                    SILVER DELTA
+                         │
+                         ↓
+                 business logic
+                         │
+                         ↓
+                     GOLD DELTA
+                         │
+               ┌─────────┼─────────┐
+               ↓         ↓         ↓
+            Power BI   SQL       ML/AI
