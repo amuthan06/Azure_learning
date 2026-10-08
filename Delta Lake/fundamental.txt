@@ -1,2 +1,0 @@
-
-ACID, MERGE, UPDATE, DELETE, schema enforcement, schema evolution, time travel and Transaction log

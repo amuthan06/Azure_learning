@@ -1,0 +1,98 @@
+Unity Catalog
+
+What is Unity Catalog?
+Unity Catalog is Databricks' centralized governance and security layer.
+Used for data discovery, access control, metadata, lineage, and governance.
+
+Hierarchy
+Catalog
+   ↓
+Schema
+   ↓
+Table / View / Function
+Example:
+prod.silver.orders
+
+prod   → Catalog
+silver → Schema
+orders → Table
+
+Main Responsibilities
+Access Control → Who can access data?
+Permissions → SELECT, MODIFY, etc.
+Data Discovery → Find available data assets
+Lineage → Track upstream/downstream data flow
+Metadata Management
+Storage Governance
+Auditing
+
+Example
+GRANT SELECT
+ON TABLE prod.silver.orders
+TO `sales_analysts`;
+
+This allows the specified group to query the table, subject to the applicable permissions.
+
+Storage Governance
+Unity Catalog can govern cloud storage using:
+Storage Credential
+        ↓
+External Location
+        ↓
+ADLS Gen2
+
+Storage Credential → Defines how Databricks authenticates to cloud storage.
+External Location → Defines/governs a cloud storage path.
+
+Managed vs External Tables
+Managed Table
+Databricks/Unity Catalog manages the table's storage lifecycle.
+
+External Table
+Data remains at a specified external cloud storage location.
+Unity Catalog governs the table/access.
+
+How do we use Unity Catalog?
+Admin/Governance configuration:
+Create catalogs/schemas
+Configure storage credentials
+Configure external locations
+Create groups
+Grant/revoke permissions
+
+SQL:
+CREATE CATALOG prod;
+CREATE SCHEMA prod.silver;
+CREATE TABLE prod.silver.orders
+USING DELTA;
+
+PySpark:
+df = spark.table("prod.silver.orders")
+
+Unity Catalog + Delta + ADLS
+
+             Unity Catalog
+          "Governance & Security"
+                   ↓
+             Delta Table
+          "Reliable Table Layer"
+                   ↓
+                ADLS
+           "Physical Storage"
+
+Important Distinction
+
+Spark
+→ Processing
+
+Delta Lake
+→ Table/storage layer
+
+Unity Catalog
+→ Governance/security
+
+ADLS
+→ Physical cloud storage
+
+Interview Answer
+Unity Catalog is Databricks' centralized governance layer. It provides a three-level namespace of catalog, schema, and object, along with permissions, access control, metadata, lineage, auditing, and governed access to cloud storage.

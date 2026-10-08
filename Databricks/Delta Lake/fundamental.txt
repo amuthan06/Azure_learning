@@ -1,0 +1,72 @@
+Delta Lake
+
+What is Delta Lake?
+Delta Lake is a storage/table layer built on cloud object storage such as ADLS.
+It uses Parquet files + _delta_log.
+Provides reliable table management on top of a data lake.
+
+Architecture
+Spark
+  ↓
+Delta Lake
+  ├── Parquet data files
+  └── _delta_log
+        ↓
+      ADLS
+
+Key Features
+ACID Transactions → Reliable concurrent reads/writes
+MERGE → Upsert existing + insert new records
+UPDATE / DELETE → Modify table data
+Time Travel → Query previous table versions
+Schema Enforcement → Prevent incompatible schema writes
+Schema Evolution → Allow controlled schema changes
+OPTIMIZE → Compact small files / improve data layout
+VACUUM → Remove old, obsolete physical files
+
+Delta vs Parquet
+- Parquet
+= Columnar data files
+- Delta
+= Parquet files
++ _delta_log
++ ACID
++ MERGE
++ Time Travel
++ Schema management
+
+How do we use Delta?
+PySpark:
+df.write.format("delta").saveAsTable("prod.silver.orders")
+
+SQL:
+CREATE TABLE prod.silver.orders
+USING DELTA;
+
+Read:
+df = spark.table("prod.silver.orders")
+
+MERGE:
+MERGE INTO target t
+USING source s
+ON t.id = s.id
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *;
+
+Delta in Medallion Architecture
+Source
+  ↓
+Bronze Delta → Raw
+  ↓
+Silver Delta → Cleaned/Validated
+  ↓
+Gold Delta   → Business-ready
+
+Important Distinction
+Spark → Processes data
+Delta Lake → Manages reliable tables
+ADLS → Physically stores data
+Unity Catalog → Governs data
+
+Interview Answer
+Delta Lake is a storage/table layer built on cloud object storage. It stores data as Parquet files and maintains a transaction log to provide ACID transactions, MERGE, time travel, schema enforcement, and reliable data management.
