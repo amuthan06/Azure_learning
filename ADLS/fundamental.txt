@@ -1,0 +1,12 @@
+ADLS Gen2 hierarchy -
+1. Storage account
+The top-level Azure storage resource.
+
+2. Container
+A top-level container for organizing data.
+
+3. Directory / folder
+Organizes files and datasets.
+
+4. Files
+CSV, JSON, Parquet, Delta data files, etc.
