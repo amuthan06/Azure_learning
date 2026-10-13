@@ -1,0 +1,19 @@
+What is BigQuery -
+Google BigQuery is a fully managed, serverless, enterprise cloud data warehouse in Google Cloud Platform (GCP). 
+It lets you store, manage, and query massive datasets—ranging from gigabytes to petabytes—using standard SQL(mailnly) or Python.
+
+Core Characteristics -
+-> Serverless Architecture: You do not need to provision, manage, or tune underlying virtual machines, servers, or hardware clusters. 
+                            Google automatically scales compute and storage resources up or down based on your workload
+
+-> Separation of Compute and Storage: The storage layer (which holds and compresses data) and the compute layer (powered by Google's Dremel query engine) operate independently. 
+                                      This allows you to scale them separately without performance bottlenecks.
+
+-> Columnar Storage: Data is stored in columns rather than rows, which dramatically speeds up analytical queries by scanning only the specific columns needed
+
+Partition -
+This partition is different from spark partition, Here we will decide how we will partition (range of number / time / specific column)
+
+Clustering -
+It will sort and load data. While createing table itself we will say use these column for clustering.
+Difference between ORDER BY and clustering is Order by will sort after query execute but clustering will insert data itself ordered
