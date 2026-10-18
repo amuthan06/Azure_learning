@@ -1,0 +1,28 @@
+Airflow -
+Airflow is just orchestrator tool, it will trigger PySpark, Python, SQL code at scheduled time.
+It wont support stream processing
+
+Main blocks of airflow -
+DAG -> define what should run and in what order (it is like blueprint)
+Task -> single unit of work in DAG (example: a DAG has 3 functions like read data -> deduplicate -> load data here each one is separate tasks)
+Operator -> Define how a tasks workes 
+
+Architecture -
+scheduler (DAG processor inside scheduler) -> executor (worker is place where actual execution happen) -> metadata database
+
+when airflow code run:
+DAG processer will parse code 
+scheduler will plan everything this both parsed code and plan will store in meta data
+executor will launch the worker and execute the task
+results (sucess / fail) will store in metadata database
+
+Types of Executor -
+There are 4 types of executors:
+-> Sequential Executor - Execute only one task at a time
+-> local executor - Execute multiple tasks parallel at same machine (Multiple processes, one machine. Not for production level, suites for leraning and local testing)
+-> celery executor - Distributes tasks across multiple workers using a "message broker"
+-> Kubernetes executor - Creates a separate Kubernetes pod for each task instance
+
+XCom -
+Lets tasks exchange small pieces of runtime data during a DAG run 
+

@@ -10,3 +10,15 @@ Organizes files and datasets.
 
 4. Files
 CSV, JSON, Parquet, Delta data files, etc.
+
+External Location - 
+abfss://container@storageaccount.dfs.core.windows.net/path/
+Breakdown:
+- abfss:// — secure Azure Data Lake Storage access scheme.
+- container — container name.
+- storageaccount — Azure storage account name.
+- dfs.core.windows.net — ADLS Gen2 endpoint.
+- /path/ — directory or data location.
+Example:
+abfss://data@companydatalake.dfs.core.windows.net/bronze/orders/
+
