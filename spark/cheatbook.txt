@@ -1,0 +1,97 @@
+main import -
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+
+creating session -
+spark = SparkSession.builder.appName("sample").getOrCreate()
+
+create manual DataFrame -
+1. first create data
+   data = [
+    (101, "Arun", "IT", 60000),
+    (102, "Priya", "HR", 45000), 
+    (103, "Karthik", "IT", 75000),
+    (104, "Divya", "Finance", 50000),
+    (105, "Sneha", "IT", 80000),
+    (106, "Rahul", "HR", 40000)
+]
+2. create columns - columns =["emp_id", "name", "department", "salary"]
+3. createing DataFrame df = spark.createDataFrame(data, columns)
+
+Read data from CSV / JSON / parquet / delta:
+import -> session -> read
+df = spark.read.option("header", True).option("inferSchema", True).csv("file_path") -> (Note: inferSchema means spark create we can also design our own schema)
+df = spark.read.option("header", True).schema(defined_schema).json("file_path") -> (Note: we will manually create schema before read)
+df = spark.read.parquet("file_path") -> it is already have schema 
+df = spark.read.delta("file_path")
+
+show() -> Display the first 20 rows by default
+show(5) -> Display the first 5 rows
+
+printSchema() -> Display column names and data types 
+
+columns -> Get column names as a Python list (eg: ['emp_id', 'name', 'department', 'salary'])
+
+dtypes -> Get column names and their data types (eg: [('emp_id', 'bigint'), ('name', 'string'), ('department', 'string'), ('salary', 'bigint')])
+
+count() -> Count the number of rows
+
+select() -> this will select specific column
+select("name").show() -> this will display only name column
+select("name", "department") -> this is how we will select multiple columns
+
+.alias() -> this will give a custom name for column
+eg: df.select("name", (col("salary") * 12).alias("Annual_Salary")).show()
+
+for condition (filter() and when())-
+filter:
+df.filter(col("age") >= 18).show()
+df.filter((col("age")>=18) & (col("gender")=="M") ).show() (& - AND, | - OR, ~ NOT)
+
+.isin() -> used to select multiple value in a column
+eg: df.filter(col("department").isin("IT","Finance")).show() -> this will select only IT and Finance data
+
+.withColumn() — Add or modify a column
+SYNTAX - df.withColumn("column_name", condition).show()
+1. eg: df.withColumn("annual_salary", (col("salary") * 12) ).show()
+2. withColumn() used with when() and otherwise()
+   eg: df.withColumn("age_check", when(col("age") >= 18, "Vote").otherwise("No Vote")).show()
+
+drop() — Remove columns
+eg: df.drop("age").show() -> this will drop age column
+    df.drop("age", "department").show()  -> drop multiple columns
+
+handle duplicates - distinct() and dropDuplicates()
+Removes duplicate rows considering all columns
+df.distinct().show()
+df.dropDuplicates().show()
+Removes duplicate rows based on specific column
+df.dropDuplicates(["employee_id"]).show()
+
+orderBy() and sort() — Sort rows
+df.orderBy("salary").show() -> orderby salary ascending
+df.orderBy(col("salary").desc()).show() -> orderby salary descending
+df.sort(col("salary")).show()
+df.sort(col("salary").desc()).show()
+
+isNull() and isNotNull() — Handle missing values
+eg:df.filter(col("city").isNull()).show() -> this will give all data with null city
+   df.filter(col("city").isNotNull()).show() -> this will give only datas having value for city
+
+groupBy() -
+eg: df.groupBy("department").sum("salary").show()
+
+.agg() lets you perform multiple aggregation and allow .alias()
+df.groupBy("department").agg(
+    sum("salary").alias("Total_salary"),
+    min("salary").alias("Min_salary"),
+    max("salary").alias("max_salary")
+).show()
+
+join() -
+SYNTAX - df1.join(df2, condition, how="type of join")
+eg: join_df = employee.join(department, employee["department_id"]=department["department_id"], "inner")
+
+String functions — trim, lower, upper, concat, split, substring, regexp_replace
+Null handling — isNull, isNotNull, fillna, dropna, and coalesce
+Date and time functions — to_date, to_timestamp, date_format, datediff, add_months
