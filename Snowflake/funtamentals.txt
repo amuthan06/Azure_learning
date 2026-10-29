@@ -1,0 +1,7 @@
+Snowflake is cloud data warehouse
+
+Architecture -
+Storage, Compute and Colud service
+main thing is compute and storage is separate here
+
+RBAC - Role Based Access Contol
